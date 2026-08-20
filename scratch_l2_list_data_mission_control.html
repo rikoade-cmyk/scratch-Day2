@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Petualangan Kodemu — Scratch L2: List & Data</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap');
+:root{--blue:hsl(129, 55%, 53%);--blue2:#28cf8f;--light:#eaf4ff;--line:#c9ddf2;--text:#24415f;--muted:#70869d;--purple:#479cd8;--orange:#e9a62d;--green:#4d9b66}
+*{box-sizing:border-box}
+body{margin:0;font-family:Nunito,sans-serif;color:var(--text);background:radial-gradient(circle at 4% 25%,#d5eaff 0 105px,transparent 108px),radial-gradient(circle at 96% 75%,#d7edff 0 145px,transparent 148px),linear-gradient(135deg,#dceeff,#f3f9ff 45%,#d8ecff);min-height:100vh}
+.topbar{height:66px;background:#fff;display:flex;align-items:center;padding:0 24px;border-bottom:1px solid #d9e7f5;gap:18px}
+.logo{font-size:28px}.brand{font-weight:800;color:var(--blue);letter-spacing:.6px}.divider{height:28px;width:2px;background:#d3e2f1}.crumb{font-weight:800;color:#2a629c}
+.app{display:grid;grid-template-columns:270px 1fr;gap:28px;max-width:1320px;margin:30px auto;padding:0 24px}
+.sidebar{background:#fff;border-radius:28px;box-shadow:0 12px 28px rgba(30,80,130,.13);overflow:hidden;height:calc(100vh - 126px);position:sticky;top:30px}
+.sidehead{padding:25px 22px;border-bottom:1px solid var(--line)}.sidehead h2{margin:0;color:var(--blue);font-family:'Baloo 2';font-size:24px}.sidehead small{color:var(--blue2);font-weight:800;letter-spacing:1px}
+.missions{padding:10px;overflow:auto;height:calc(100% - 94px)}
+.mission{display:flex;gap:12px;align-items:center;padding:12px;border-radius:16px;cursor:pointer;margin:5px 0;border:1px solid transparent;transition:.2s}
+.mission:hover{background:#f2f8ff}.mission.active{background:#e5f0ff;border-color:#bfd7ef}
+.num{width:40px;height:40px;border-radius:13px;background:#e2f0ff;color:var(--blue);display:grid;place-items:center;font-weight:800;font-size:18px;flex:none}.active .num{background:var(--blue);color:white}
+.mission b{display:block;font-size:13px}.mission span{font-size:10px;color:#6683a0;font-weight:800;text-transform:uppercase}
+.main{min-width:0}.card{background:#fff;border-radius:30px;box-shadow:0 12px 28px rgba(30,80,130,.13);min-height:620px;padding:42px 52px}
+.content{max-width:920px;margin:auto}.badge{display:inline-block;background:#e5effb;border:1px solid #b9d0e9;color:#32669b;border-radius:20px;padding:8px 18px;font-size:11px;font-weight:900;letter-spacing:.8px}
+h1{font-family:'Baloo 2';font-size:45px;line-height:1.05;margin:20px 0 6px;color:#164d83}.subtitle{font-size:18px;font-weight:800;color:#365e84;margin-bottom:24px}
+.hero{text-align:center;font-size:70px;margin:5px 0 14px}
+.panel{background:#f7fbff;border:1px solid #d4e5f5;border-radius:20px;padding:21px;margin:17px 0}.panel h3{margin:0 0 9px;color:#20598f}
+.welcome{text-align:center;max-width:700px;margin:auto}.welcome p{font-size:17px;line-height:1.7}
+.namebox{display:flex;gap:10px;justify-content:center;margin:20px auto;max-width:440px}
+input{flex:1;padding:14px 16px;border:1px solid #c9dbea;border-radius:12px;font:inherit;outline:none}
+button{border:0;border-radius:12px;background:var(--blue2);color:#fff;padding:13px 20px;font-weight:800;cursor:pointer;box-shadow:0 6px 12px rgba(45,108,223,.2)}button:hover{filter:brightness(1.05)}
+.scratch{background:#fff;border:1px solid #d7e5f2;border-radius:18px;padding:18px;margin-top:18px}.scratch-title{font-weight:900;color:#2b6096;margin-bottom:12px}
+.block{display:inline-block;color:white;padding:9px 13px;margin:4px 3px;border-radius:8px;font-weight:800;box-shadow:inset 0 -2px rgba(0,0,0,.12)}
+.list{background:#e7f2ff;border:1px solid #c4ddf3;border-radius:16px;padding:18px;margin-top:18px}.list strong{color:#245b91}
+.challenge{background:#fff8e8;border:1px solid #f0d79a;border-radius:18px;padding:20px;margin-top:20px}.challenge b{color:#9a6710}
+ol,ul{line-height:1.8}code{background:#edf4fb;padding:3px 7px;border-radius:6px;color:#174e83;font-weight:700}
+.bottom{margin-top:22px;background:#fff;border-radius:22px;box-shadow:0 12px 28px rgba(30,80,130,.13);height:76px;display:flex;align-items:center;justify-content:space-between;padding:0 20px}
+.progress{width:240px}.progressbar{height:7px;background:#d9e7f3;border-radius:10px;overflow:hidden}.progressbar div{height:100%;background:var(--blue2);width:0}.progresstext{text-align:center;font-size:10px;color:#52708d;font-weight:900;margin-top:6px}
+.nav{display:flex;gap:10px}.prev{background:#eef5fb;color:#52708d;box-shadow:none}.footer-note{text-align:center;font-size:12px;color:#7990a7;margin-top:10px}
+@media(max-width:900px){.app{grid-template-columns:1fr}.sidebar{position:relative;height:auto;top:0}.missions{display:flex;overflow:auto}.mission{min-width:190px}.card{padding:30px 24px}h1{font-size:36px}.bottom{height:auto;padding:14px;gap:12px;flex-wrap:wrap}}
+</style>
+</head>
+<body>
+<header class="topbar"><div class="logo">🎨</div><div class="brand">PETUALANGAN KODEMU</div><div class="divider"></div><div class="crumb">Scratch L2 / List & Data Mission Control</div></header>
+<div class="app">
+<aside class="sidebar"><div class="sidehead"><h2>MISSION PATH</h2><small>12 MEETINGS JOURNEY</small></div><div class="missions" id="missions"></div></aside>
+<main class="main"><section class="card" id="card"></section>
+<div class="bottom"><button class="prev" onclick="move(-1)">← SEBELUMNYA</button><div class="progress"><div class="progressbar"><div id="bar"></div></div><div class="progresstext" id="progress"></div></div><button onclick="move(1)">SELANJUTNYA →</button></div>
+<div class="footer-note">Scratch List & Data • Belajar konsep data melalui proyek visual</div>
+</main></div>
+<script>
+const missions=[
+{n:1,title:"Mengenal List",sub:"DASAR PENYIMPANAN DATA",icon:"📋",slides:[
+["Misi 1: Mengenal List","Menyimpan banyak data dalam satu tempat","📋","Pada Scratch, <b>List</b> digunakan untuk menyimpan beberapa data sekaligus. Konsep ini membantu peserta didik memahami bagaimana program mengelola kumpulan informasi."],
+["Mengapa Menggunakan List?","Dari banyak variabel menjadi satu kumpulan data","🗃️","Tanpa list, kita mungkin membuat variabel terpisah seperti <code>nama1</code>, <code>nama2</code>, dan <code>nama3</code>. Dengan list, seluruh data dapat dikelola dalam satu struktur."],
+["Challenge","Buat daftar nama pemain.","🎯","Buat sebuah list bernama <b>Nama Pemain</b>, kemudian tambahkan sedikitnya lima nama. Amati bagaimana setiap data tersimpan sebagai item dalam list."]
+]},
+{n:2,title:"Menambah & Menghapus Item",sub:"MANIPULASI DATA",icon:"➕",slides:[
+["Menambah & Menghapus Item","Mengubah isi list secara terkontrol","➕","Gunakan blok <b>add [ ] to [list]</b> untuk menambahkan data dan <b>delete [ ] of [list]</b> untuk menghapus data tertentu."],
+["Mengelola Data","Data dapat berubah selama program berjalan","🔧","List bersifat dinamis. Data dapat ditambahkan ketika pemain memperoleh skor, dan dapat dihapus ketika data tersebut tidak lagi diperlukan."],
+["Challenge","Bangun daftar tugas.","🎯","Buat list <b>Daftar Tugas</b>. Tambahkan tiga tugas, kemudian buat tombol untuk menghapus tugas pertama setelah tugas selesai."]
+]},
+{n:3,title:"Item & Index",sub:"POSISI DATA",icon:"🔢",slides:[
+["Item & Index","Setiap data memiliki posisi","🔢","Dalam Scratch, item pada list memiliki nomor posisi yang disebut <b>index</b>. Item pertama berada pada posisi 1."],
+["Membaca Data","Mengambil satu item dari list","🔎","Gunakan blok <b>item ( ) of [list]</b>. Contoh: <b>item 1 of Nama Pemain</b> mengambil data pertama."],
+["Challenge","Tampilkan data tertentu.","🎯","Buat program yang meminta nomor item kepada pengguna, kemudian menampilkan data pada posisi tersebut."]
+]},
+{n:4,title:"Mengubah Item",sub:"UPDATE DATA",icon:"✏️",slides:[
+["Mengubah Item","Memperbarui data yang sudah tersimpan","✏️","Gunakan blok <b>replace item ( ) of [list] with [ ]</b> untuk mengganti isi suatu item tanpa mengubah item lainnya."],
+["Contoh Penerapan","Perubahan data dalam permainan","🎮","Misalnya, nama pemain pada posisi kedua perlu diperbaiki. Program dapat mengganti item tersebut tanpa membuat list baru."],
+["Challenge","Buat fitur edit data.","🎯","Buat list nama siswa. Sediakan mekanisme sederhana untuk mengganti nama pada posisi tertentu."]
+]},
+{n:5,title:"Panjang List",sub:"COUNTING DATA",icon:"📏",slides:[
+["Panjang List","Mengetahui jumlah data","📏","Blok <b>length of [list]</b> memberikan jumlah item yang sedang tersimpan dalam list."],
+["List yang Dinamis","Jumlah data dapat berubah","📊","Nilai panjang list akan bertambah ketika item ditambahkan dan berkurang ketika item dihapus. Hal ini penting untuk membuat program yang fleksibel."],
+["Challenge","Buat penghitung anggota.","🎯","Buat list anggota tim. Tampilkan teks seperti <b>Jumlah anggota: 5</b> secara otomatis berdasarkan panjang list."]
+]},
+{n:6,title:"Mencari Data",sub:"SEARCH & VALIDATION",icon:"🔎",slides:[
+["Mencari Data","Mengetahui apakah data tersedia","🔎","Gunakan blok <b>[list] contains [ ]?</b> untuk memeriksa apakah sebuah data terdapat di dalam list."],
+["Validasi Sederhana","Program dapat mengambil keputusan","🛡️","Jika data ditemukan, program dapat memberikan respons. Jika tidak ditemukan, program dapat meminta pengguna memasukkan data lain."],
+["Challenge","Buat pencarian nama.","🎯","Buat list nama peserta. Minta pengguna memasukkan nama, lalu tampilkan informasi apakah nama tersebut terdaftar atau belum."]
+]},
+{n:7,title:"List & Loop",sub:"MEMPROSES BANYAK DATA",icon:"🔁",slides:[
+["List & Loop","Memproses item satu per satu","🔁","Loop dapat digunakan untuk memproses seluruh item dalam list secara berurutan."],
+["Konsep Pengulangan","Membaca seluruh isi list","⚙️","Gunakan variabel penghitung dari 1 sampai panjang list, kemudian ambil <b>item penghitung of list</b> pada setiap pengulangan."],
+["Challenge","Tampilkan seluruh data.","🎯","Buat program yang menampilkan semua nama dalam list satu per satu menggunakan loop."]
+]},
+{n:8,title:"List sebagai Inventori",sub:"DATA DALAM GAME",icon:"🎒",slides:[
+["List sebagai Inventori","Menyimpan benda milik pemain","🎒","List dapat digunakan sebagai inventori untuk menyimpan item yang diperoleh pemain selama permainan."],
+["Game Inventory","Data menjadi bagian dari mekanisme permainan","🕹️","Contoh item: Kunci, Koin, Buku, Ramuan, atau Bintang. Saat pemain mendapatkan item, program menambahkannya ke list."],
+["Challenge","Buat sistem inventori.","🎯","Buat game sederhana. Ketika pemain menyentuh benda tertentu, benda tersebut masuk ke list inventori dan tidak dapat diambil kembali."]
+]},
+{n:9,title:"List untuk Skor",sub:"DATA & PERMAINAN",icon:"🏆",slides:[
+["List untuk Skor","Menyimpan hasil permainan","🏆","List dapat menyimpan skor beberapa pemain. Program kemudian dapat menampilkan daftar skor tersebut."],
+["Leaderboard Sederhana","Mengelola data pemain","📈","Simpan nama dan skor. Untuk tahap dasar, fokus pada cara menambahkan dan menampilkan data secara terstruktur."],
+["Challenge","Buat leaderboard.","🎯","Buat list nama pemain dan list skor. Setelah permainan selesai, tambahkan data pemain dan skornya ke masing-masing list."]
+]},
+{n:10,title:"List & Broadcast",sub:"MENGHUBUNGKAN SISTEM",icon:"📡",slides:[
+["List & Broadcast","Menghubungkan list dengan bagian game","📡","Broadcast dapat digunakan untuk memicu perubahan data pada bagian lain dari program, misalnya ketika pemain memperoleh item."],
+["Contoh Alur","Event → perubahan data → respons","🔄","Pemain mengambil koin → broadcast dikirim → skor ditambahkan → list diperbarui → informasi ditampilkan."],
+["Challenge","Buat event pengambilan item.","🎯","Buat satu item yang ketika disentuh mengirim broadcast. Setelah broadcast diterima, data item ditambahkan ke list inventori."]
+]},
+{n:11,title:"Mini Project: Data Manager",sub:"PROYEK TERPADU",icon:"🧠",slides:[
+["Mini Project","Menggabungkan konsep List","🧠","Pada proyek ini, peserta didik membuat program sederhana untuk mengelola sekumpulan data menggunakan list."],
+["Rancangan Program","Masukkan → tampilkan → cari → ubah","🗺️","Program memiliki menu sederhana: menambah data, melihat data, mencari data, dan menghapus data."],
+["Challenge","Bangun Data Manager.","🚀","Buat proyek Scratch yang mengelola daftar nama atau tugas. Gunakan minimal empat konsep list yang telah dipelajari."]
+]},
+{n:12,title:"Final Mission",sub:"CAPSTONE PROJECT",icon:"🏆",slides:[
+["Final Mission","Terapkan List dalam proyek Scratch","🏆","Buat sebuah proyek Scratch yang membutuhkan penyimpanan beberapa data. Pilih konteks yang relevan dengan permainan atau simulasi sederhana."],
+["Rancang Proyek","Identifikasi data sebelum membuat kode","🧩","Tentukan: data apa yang disimpan, kapan data ditambahkan, kapan data dihapus, bagaimana data dicari, dan bagaimana data ditampilkan."],
+["Mission Complete","Presentasikan solusi Anda","🎉","Jelaskan tujuan proyek, fungsi list yang digunakan, alur perubahan data, serta alasan mengapa list lebih efektif daripada membuat banyak variabel terpisah."]
+]}
+];
+let mi=0,si=0;
+function renderMissions(){document.getElementById("missions").innerHTML=missions.map((m,i)=>`<div class="mission ${i===mi?'active':''}" onclick="goMission(${i})"><div class="num">${m.n}</div><div><b>MISI ${m.n}</b><span>${m.title}</span></div></div>`).join("")}
+function scratchBlocks(i){
+const b=[
+`<span class="block" style="background:#e9a62d">add [Raka] to [Nama Pemain]</span><span class="block" style="background:#e9a62d">delete (1) of [Nama Pemain]</span>`,
+`<span class="block" style="background:#e9a62d">replace item (2) of [Nama] with [Budi]</span>`,
+`<span class="block" style="background:#e9a62d">item (1) of [Nama Pemain]</span>`,
+`<span class="block" style="background:#e9a62d">replace item (2) of [Nama] with [Data Baru]</span>`,
+`<span class="block" style="background:#e9a62d">length of [Daftar Anggota]</span>`,
+`<span class="block" style="background:#e9a62d">[Nama Pemain] contains [Raka]?</span>`,
+`<span class="block" style="background:#e9a62d">item (i) of [Nama Pemain]</span><span class="block" style="background:#ffab19">repeat (length of [Nama Pemain])</span>`,
+`<span class="block" style="background:#e9a62d">add [Koin] to [Inventori]</span><span class="block" style="background:#ffbf00">broadcast [Item Didapat]</span>`,
+`<span class="block" style="background:#e9a62d">add (score) to [Skor]</span>`,
+`<span class="block" style="background:#ffbf00">broadcast [Item Didapat]</span><span class="block" style="background:#e9a62d">add [Koin] to [Inventori]</span>`,
+`<span class="block" style="background:#e9a62d">add [Nama] to [Data]</span><span class="block" style="background:#e9a62d">delete (1) of [Data]</span>`,
+`<span class="block" style="background:#e9a62d">list [Data] contains [ ]?</span><span class="block" style="background:#ffab19">repeat (length of [Data])</span>`
+];return b[i]||b[0]}
+function render(){
+const m=missions[mi],s=m.slides[si],globalIndex=missions.slice(0,mi).reduce((a,x)=>a+x.slides.length,0)+si+1,total=missions.reduce((a,x)=>a+x.slides.length,0);
+document.getElementById("card").innerHTML=`<div class="content"><span class="badge">MEETING ${m.n}</span><h1>${s[0]}</h1><div class="subtitle">${s[1]}</div><div class="hero">${s[2]}</div>
+${si===0?`<div class="panel"><h3>📚 Materi</h3><p>${s[3]}</p></div>`:`<div class="panel"><h3>📚 Penjelasan</h3><p>${s[3]}</p></div>`}
+<div class="scratch"><div class="scratch-title">🧩 Contoh Blok Scratch</div>${scratchBlocks(mi)}</div>
+${si===2?`<div class="challenge"><b>🎯 CHALLENGE</b><p>${s[3]}</p><p><strong>Pengembangan:</strong> Tambahkan tampilan yang memberikan umpan balik kepada pengguna ketika data berhasil ditambah, dicari, diubah, atau dihapus.</p></div>`:`<div class="list"><strong>💡 Catatan Pembelajaran:</strong> Tekankan hubungan antara data, posisi item, perubahan isi list, dan tujuan program. List bukan sekadar tempat menyimpan data, tetapi bagian dari logika program.</div>`}</div>`;
+document.getElementById("progress").textContent=`SLIDE ${globalIndex} / ${total}`;document.getElementById("bar").style.width=(globalIndex/total*100)+"%";renderMissions()}
+function move(d){si+=d;if(si>=missions[mi].slides.length){if(mi<missions.length-1){mi++;si=0}else si=missions[mi].slides.length-1}if(si<0){if(mi>0){mi--;si=missions[mi].slides.length-1}else si=0}render()}
+function goMission(i){mi=i;si=0;render()}
+render();
+</script>
+</body>
+</html>
